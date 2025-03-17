@@ -1380,3 +1380,111 @@ dtype: int64
 2025-03-17 18:02:54,083 INFO Generating trade execution report...
 2025-03-17 18:02:54,230 INFO Report saved at: reports\report_2025-03-17_18-02-54.xlsx
 2025-03-17 18:02:54,231 INFO Trading pipeline completed successfully!
+2025-03-17 18:07:18,210 INFO Starting trading pipeline...
+2025-03-17 18:07:18,211 INFO Fetching data for ['AAPL'] from 2022-01-01 to 2022-12-31...
+2025-03-17 18:07:18,516 INFO Data loaded successfully from Yahoo Finance for ['AAPL'] from 2022-01-01 to 2022-12-31
+2025-03-17 18:07:18,518 INFO No missing values found.
+2025-03-17 18:07:18,520 INFO No duplicate rows found.
+2025-03-17 18:07:18,522 INFO Data types:
+Date      datetime64[ns]
+Close            float64
+High             float64
+Low              float64
+Open             float64
+Volume             int64
+dtype: object
+2025-03-17 18:07:18,537 INFO Data statistical summary:
+                                Date       Close        High         Low        Open        Volume
+count                            251  251.000000  251.000000  251.000000  251.000000  2.510000e+02
+mean   2022-07-02 15:23:39.920318720  152.607556  154.650547  150.494617  152.575786  8.791038e+07
+min              2022-01-03 00:00:00  124.591385  128.456420  124.423341  126.518932  3.519590e+07
+25%              2022-04-02 12:00:00  142.799400  144.964513  140.376131  142.454336  7.229740e+07
+50%              2022-07-05 00:00:00  151.855789  153.570566  149.736973  151.776959  8.373720e+07
+75%              2022-10-01 12:00:00  163.372040  165.754616  161.384480  163.704375  9.693705e+07
+max              2022-12-30 00:00:00  178.879898  179.793920  176.039607  179.489254  1.826020e+08
+std                              NaN   12.697922   12.575341   12.753980   12.705787  2.365699e+07
+2025-03-17 18:07:18,543 WARNING Outliers found:
+Date       0
+Close      0
+High       0
+Low        0
+Open       0
+Volume    14
+dtype: int64
+2025-03-17 18:07:18,544 INFO Calculating technical indicators...
+2025-03-17 18:07:18,547 INFO Relative Strength Index (window=14) calculated successfully as RSI.
+2025-03-17 18:07:18,549 INFO MACD (slow=26, fast=12, sign=9) calculated successfully.
+2025-03-17 18:07:18,552 INFO Average True Range (window=14) calculated successfully.
+2025-03-17 18:07:18,554 INFO Bollinger Bands (window=20, std_dev=2) calculated successfully.
+2025-03-17 18:07:18,556 INFO Moving Average (window=20) calculated successfully.
+2025-03-17 18:07:18,557 INFO Exponential Moving Average (window=20) calculated successfully.
+2025-03-17 18:07:18,558 INFO Generating rule-based signals...
+2025-03-17 18:07:18,560 INFO Rule-based signals generated successfully.
+2025-03-17 18:07:18,561 INFO Columns after signal generation: ['Date', 'Close', 'High', 'Low', 'Open', 'Volume', 'RSI', 'MACD', 'MACD_Signal', 'MACD_Hist', 'ATR', 'BB_High', 'BB_Low', 'BB_Mid', 'MA_20', 'EMA_20', 'Rule_Signal', 'Signal']
+2025-03-17 18:07:18,562 INFO Applying feature engineering (creating lagged features)...
+2025-03-17 18:07:18,564 INFO Higher Highs and Lower Lows identified successfully.
+2025-03-17 18:07:18,566 INFO Double Top pattern identified successfully.
+2025-03-17 18:07:18,568 INFO Head and Shoulders pattern identified successfully.
+2025-03-17 18:07:18,569 INFO Triple Bottom pattern identified successfully.
+2025-03-17 18:07:18,572 INFO Cup and Handle pattern identified successfully.
+2025-03-17 18:07:18,574 INFO Bullish Engulfing pattern identified successfully.
+2025-03-17 18:07:18,576 INFO Bearish Engulfing pattern identified successfully.
+2025-03-17 18:07:18,577 INFO Morning Star pattern identified successfully.
+2025-03-17 18:07:18,579 INFO Evening Star pattern identified successfully.
+2025-03-17 18:07:18,580 INFO Hammer pattern identified successfully.
+2025-03-17 18:07:18,582 INFO Shooting Star pattern identified successfully.
+2025-03-17 18:07:18,586 INFO RSI Divergence identified successfully.
+2025-03-17 18:07:18,588 INFO Bollinger Band Squeeze identified successfully.
+2025-03-17 18:07:18,590 INFO Moving Average Crossover identified successfully.
+2025-03-17 18:07:18,595 INFO ADX Trend Strength identified successfully.
+2025-03-17 18:07:18,598 INFO Stochastic Oscillator identified successfully.
+2025-03-17 18:07:18,599 INFO Pennant pattern identified successfully.
+2025-03-17 18:07:18,601 INFO Flag pattern identified successfully.
+2025-03-17 18:07:18,603 INFO Wedge pattern identified successfully.
+2025-03-17 18:07:18,605 INFO Triangle pattern identified successfully.
+2025-03-17 18:07:18,606 INFO Patterns added successfully.
+2025-03-17 18:07:18,607 INFO Moving Average (window=20) calculated successfully.
+2025-03-17 18:07:18,608 INFO Exponential Moving Average (window=20) calculated successfully.
+2025-03-17 18:07:18,610 INFO Relative Strength Index (window=14) calculated successfully as RSI.
+2025-03-17 18:07:18,611 INFO Bollinger Bands (window=20, std_dev=2) calculated successfully.
+2025-03-17 18:07:18,613 INFO MACD (slow=26, fast=12, sign=9) calculated successfully.
+2025-03-17 18:07:18,616 INFO Average True Range (window=14) calculated successfully.
+2025-03-17 18:07:18,618 INFO Stochastic Oscillator (window=14, smooth_window=3) calculated successfully.
+2025-03-17 18:07:18,623 INFO Commodity Channel Index (window=20) calculated successfully.
+2025-03-17 18:07:18,626 INFO Ichimoku Cloud (window1=9, window2=26, window3=52) calculated successfully.
+2025-03-17 18:07:18,629 INFO Aroon Indicator (window=25) calculated successfully.
+2025-03-17 18:07:18,654 INFO Parabolic SAR (acceleration=0.02, maximum=0.2) calculated successfully.
+2025-03-17 18:07:18,655 INFO Volume Weighted Average Price (window=14) calculated successfully.
+2025-03-17 18:07:18,657 INFO On-Balance Volume calculated successfully.
+2025-03-17 18:07:18,662 INFO Money Flow Index (window=14) calculated successfully.
+2025-03-17 18:07:18,663 INFO Chaikin Money Flow (window=20) calculated successfully.
+2025-03-17 18:07:18,665 INFO Ease of Movement (window=14) calculated successfully.
+2025-03-17 18:07:18,667 INFO Accumulation/Distribution Index calculated successfully.
+2025-03-17 18:07:18,670 INFO Ultimate Oscillator (short_window=7, long_window=14) calculated successfully.
+2025-03-17 18:07:18,671 INFO Indicators added successfully.
+2025-03-17 18:07:18,674 INFO Missing values handled successfully.
+2025-03-17 18:07:18,689 INFO Lagged features created successfully.
+2025-03-17 18:07:18,698 INFO Data normalised successfully.
+2025-03-17 18:07:18,702 INFO Feature engineering completed successfully.
+2025-03-17 18:07:18,703 INFO Training model on engineered data...
+2025-03-17 18:07:18,813 INFO Model trained successfully with accuracy: 1.00
+2025-03-17 18:07:18,827 INFO Model signals applied successfully.
+2025-03-17 18:07:18,829 INFO Consensus signal generated successfully.
+2025-03-17 18:07:18,846 INFO Backtesting completed successfully.
+2025-03-17 18:07:18,849 INFO Rule-Based Signal Accuracy: 1.00
+2025-03-17 18:07:18,850 INFO Model-Based Signal Accuracy: 1.00
+2025-03-17 18:07:18,851 INFO Rule-based accuracy: 1.00, Model accuracy: 1.00
+2025-03-17 18:07:21,941 INFO Buy/Sell signals plotted for ['AAPL']
+2025-03-17 18:07:23,056 INFO Backtesting balance plotted for ['AAPL']
+2025-03-17 18:07:23,057 INFO Running forecasting model (ARIMA)...
+2025-03-17 18:07:23,144 INFO ARIMA model trained successfully.
+2025-03-17 18:07:23,155 INFO Resistance levels (window=20) calculated successfully.
+2025-03-17 18:07:23,157 INFO Support levels (window=20) calculated successfully.
+2025-03-17 18:07:23,160 INFO Volatility (window=20) calculated successfully.
+2025-03-17 18:07:23,162 INFO Volume moving average (window=20) calculated successfully.
+2025-03-17 18:07:23,163 WARNING Data for AAPL is missing. Skipping.
+2025-03-17 18:07:23,164 WARNING Data for AAPL is missing. Skipping.
+2025-03-17 18:07:23,164 INFO Stock screening results: {'short_term': {}, 'long_term': {}}
+2025-03-17 18:07:23,166 INFO Generating trade execution report...
+2025-03-17 18:07:23,312 INFO Report saved at: reports\report_2025-03-17_18-07-23.xlsx
+2025-03-17 18:07:23,313 INFO Trading pipeline completed successfully!
