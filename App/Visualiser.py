@@ -2,7 +2,7 @@
 
 import matplotlib.pyplot as plt
 import seaborn as sns
-from Logger import System_Log
+from App.Logger import System_Log
 
 # Setup the logger
 system_logger = System_Log.setup_logger('visualiser')

@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import joblib
-from Logger import System_Log
+from App.Logger import System_Log
 
 # Setup the logger
 system_logger = System_Log.setup_logger('model')
@@ -17,6 +17,9 @@ class Model:
         Train a machine learning model to generate trading signals.
         """
         try:
+            if target_column not in data.columns:
+                raise KeyError(f"'{target_column}' column not found in the dataset.")
+
             feature_columns = [col for col in data.columns if col not in ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', target_column]]
             X = data[feature_columns]
             y = data[target_column]
@@ -31,9 +34,13 @@ class Model:
             system_logger.info(f"Model trained successfully with accuracy: {accuracy:.2f}")
 
             return model, accuracy
+        except KeyError as e:
+            system_logger.error(f"Missing target column: {e}")
+            raise
         except Exception as e:
             system_logger.error(f"Error training model: {e}")
             raise
+
 
     @staticmethod
     def save_model(model, file_path):
@@ -68,9 +75,17 @@ class Model:
         try:
             feature_columns = [col for col in data.columns if col not in ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'Signal']]
             X = data[feature_columns]
+
+            # Apply model prediction
             data['Model_Signal'] = model.predict(X)
+
+            # Ensure `Signal` column is created
+            if 'Signal' not in data.columns:
+                data['Signal'] = data['Model_Signal']
+
             system_logger.info("Model signals applied successfully.")
             return data
         except Exception as e:
             system_logger.error(f"Error applying model: {e}")
             raise
+

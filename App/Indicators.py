@@ -41,12 +41,14 @@ class Indicators:
         Calculate Relative Strength Index (RSI).
         """
         try:
-            data['RSI'] = ta.momentum.RSIIndicator(data['Close'], window=window).rsi()
-            system_logger.info(f"Relative Strength Index (window={window}) calculated successfully.")
+            column_name = f"RSI"  # Standard naming
+            data[column_name] = ta.momentum.RSIIndicator(data['Close'], window=window).rsi()
+            system_logger.info(f"Relative Strength Index (window={window}) calculated successfully as {column_name}.")
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Relative Strength Index: {e}")
             raise
+
 
     @staticmethod
     def bollinger_bands(data, window=20, std_dev=2):
@@ -138,20 +140,28 @@ class Indicators:
             system_logger.error(f"Error calculating Ichimoku Cloud: {e}")
             raise
 
+    
     @staticmethod
     def aroon(data, window=25):
         """
         Calculate Aroon Indicator.
         """
         try:
-            aroon = ta.trend.AroonIndicator(data['Close'], window=window)
+            # Ensure 'High' and 'Low' columns exist in the DataFrame
+            if 'High' not in data.columns or 'Low' not in data.columns:
+                raise ValueError("Data must contain 'High' and 'Low' columns to calculate Aroon Indicator.")
+
+            # Calculate Aroon Indicator
+            aroon = ta.trend.AroonIndicator(high=data['High'], low=data['Low'], window=window)
             data['Aroon_Up'] = aroon.aroon_up()
             data['Aroon_Down'] = aroon.aroon_down()
+
             system_logger.info(f"Aroon Indicator (window={window}) calculated successfully.")
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Aroon Indicator: {e}")
             raise
+
 
     @staticmethod
     def parabolic_sar(data, acceleration=0.02, maximum=0.2):

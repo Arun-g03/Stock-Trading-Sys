@@ -7,7 +7,7 @@ from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import LinearRegression
-from Logger import System_Log
+from App.Logger import System_Log
 
 # Setup the logger
 system_logger = System_Log.setup_logger('forecasting_model')
@@ -145,21 +145,30 @@ class GRUForecast(BaseForecast):
             system_logger.error(f"Error making GRU predictions: {e}")
             raise
 
-# ARIMA forecasting class
-class ARIMAForecast(BaseForecast):
+
+
+class ARIMAForecast:
     def __init__(self, order=(5, 1, 0)):
         self.order = order
         self.model = None
 
     def train(self, data):
         try:
+            # Ensure Date is a datetime index
+            if 'Date' in data.columns:
+                data['Date'] = pd.to_datetime(data['Date'])
+                data.set_index('Date', inplace=True)
+            
+            # Ensure the index is a proper time series frequency
+            data = data.asfreq('B')  # Set to business-day frequency
+
             self.model = ARIMA(data['Close'], order=self.order).fit()
             system_logger.info("ARIMA model trained successfully.")
         except Exception as e:
             system_logger.error(f"Error training ARIMA model: {e}")
             raise
 
-    def predict(self, data, steps=10):
+    def predict(self, steps=10):
         try:
             forecast = self.model.forecast(steps=steps)
             return forecast
@@ -169,7 +178,8 @@ class ARIMAForecast(BaseForecast):
 
     def forecast(self, data, steps=10):
         self.train(data)
-        return self.predict(data, steps=steps)
+        return self.predict(steps=steps)
+
 
 # Holt–Winters forecasting class
 class HoltWintersForecast(BaseForecast):

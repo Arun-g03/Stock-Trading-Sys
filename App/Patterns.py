@@ -3,7 +3,7 @@
 import pandas as pd
 import numpy as np
 import ta
-from Logger import System_Log
+from App.Logger import System_Log
 
 # Setup the logger
 system_logger = System_Log.setup_logger('patterns')
@@ -216,15 +216,24 @@ class Patterns:
         Identify Moving Average Crossover in the data.
         """
         try:
+            # Calculate short and long moving averages
             data['short_ma'] = ta.trend.SMAIndicator(data['Close'], window=short_window).sma_indicator()
             data['long_ma'] = ta.trend.SMAIndicator(data['Close'], window=long_window).sma_indicator()
+
+            # Identify crossover (boolean column)
             data['ma_crossover'] = data['short_ma'] > data['long_ma']
-            data['ma_crossover_signal'] = data['ma_crossover'] & ~data['ma_crossover'].shift(1)
+
+            # Ensure correct boolean type before applying bitwise NOT (~)
+            data['ma_crossover_signal'] = data['ma_crossover'].astype(bool) & ~data['ma_crossover'].shift(1).infer_objects(copy=False).astype(bool).fillna(False)
+
+
+
             system_logger.info("Moving Average Crossover identified successfully.")
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Moving Average Crossover: {e}")
             raise
+
 
     @staticmethod
     def adx_trend_strength(data, window=14):

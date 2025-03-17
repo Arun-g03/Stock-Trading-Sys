@@ -3,7 +3,7 @@
 import pandas as pd
 import yfinance as yf
 import alpaca_trade_api as tradeapi
-from Logger import System_Log
+from App.Logger import System_Log
 from Config.Config import Alpaca_API_KEY, Alpaca_SECRET_KEY
 
 # Setup the logger

@@ -1,7 +1,7 @@
 # validator.py
 
 import pandas as pd
-from Logger import System_Log
+from App.Logger import System_Log
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
 # Setup the logger

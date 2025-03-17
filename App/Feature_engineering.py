@@ -3,14 +3,96 @@
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
-from Patterns import Patterns
-from Indicators import Indicators
-from Logger import System_Log
+from App.Patterns import Patterns
+from App.Indicators import Indicators
+from App.Logger import System_Log
 
 # Setup the logger
 system_logger = System_Log.setup_logger('feature_engineering')
 
 class FeatureEngineering:
+
+
+    @staticmethod
+    def calculate_volatility(data, window=20):
+        """
+        Calculate rolling volatility based on standard deviation of returns.
+        """
+        try:
+            data = data.copy()  # Create a copy to avoid fragmentation
+            returns = data['Close'].pct_change()  # Compute daily returns
+            volatility = returns.rolling(window=window).std()  # Compute rolling volatility
+
+            # Concatenate new columns to avoid fragmentation
+            data = pd.concat([data, pd.DataFrame({'returns': returns, 'volatility': volatility})], axis=1)
+            data.drop(columns=['returns'], inplace=True)  # Remove intermediate column
+
+            system_logger.info(f"Volatility (window={window}) calculated successfully.")
+            return data
+        except Exception as e:
+            system_logger.error(f"Error calculating volatility: {e}")
+            raise
+
+
+    @staticmethod
+    def calculate_resistance(data, window=20):
+        """
+        Calculate resistance level based on the highest high over a rolling window.
+        """
+        try:
+            data = data.copy()  # Prevent DataFrame fragmentation
+            resistance = data['High'].rolling(window=window).max()  # Compute resistance levels
+
+            # Concatenate to avoid fragmentation
+            data = pd.concat([data, pd.DataFrame({'resistance': resistance})], axis=1)
+
+            system_logger.info(f"Resistance levels (window={window}) calculated successfully.")
+            return data
+        except Exception as e:
+            system_logger.error(f"Error calculating resistance levels: {e}")
+            raise
+
+
+    @staticmethod
+    def calculate_support(data, window=20):
+        """
+        Calculate support level based on the lowest low over a rolling window.
+        """
+        try:
+            data = data.copy()  # Prevent DataFrame fragmentation
+            support = data['Low'].rolling(window=window).min()  # Compute support levels
+
+            # Concatenate to avoid fragmentation
+            data = pd.concat([data, pd.DataFrame({'support': support})], axis=1)
+
+            system_logger.info(f"Support levels (window={window}) calculated successfully.")
+            return data
+        except Exception as e:
+            system_logger.error(f"Error calculating support levels: {e}")
+            raise
+
+
+    @staticmethod
+    def calculate_volume_moving_average(data, window=20):
+        """
+        Calculate the 20-day moving average of trading volume.
+        """
+        try:
+            data = data.copy()  # Prevent DataFrame fragmentation
+            volume_ma_20 = data['Volume'].rolling(window=window).mean()  # Compute volume moving average
+
+            # Concatenate to avoid fragmentation
+            data = pd.concat([data, pd.DataFrame({'Volume_ma_20': volume_ma_20})], axis=1)
+
+            system_logger.info(f"Volume moving average (window={window}) calculated successfully.")
+            return data
+        except Exception as e:
+            system_logger.error(f"Error calculating volume moving average: {e}")
+            raise
+
+
+
+
     @staticmethod
     def add_patterns(data):
         """
@@ -79,8 +161,9 @@ class FeatureEngineering:
         Handle missing values in the data.
         """
         try:
-            data.fillna(method='ffill', inplace=True)
-            data.fillna(method='bfill', inplace=True)
+            data.ffill(inplace=True)
+            data.bfill(inplace=True)
+
             system_logger.info("Missing values handled successfully.")
             return data
         except Exception as e:
@@ -101,20 +184,30 @@ class FeatureEngineering:
             system_logger.error(f"Error normalising data: {e}")
             raise
 
+    
     @staticmethod
     def create_lagged_features(data, columns, lags=1):
         """
         Create lagged features for the specified columns.
         """
         try:
-            for column in columns:
-                for lag in range(1, lags + 1):
-                    data[f'{column}_lag{lag}'] = data[column].shift(lag)
+            lagged_dfs = []
+            for lag in range(1, lags + 1):
+                lagged_df = data[columns].shift(lag).add_suffix(f'_lag{lag}')
+                lagged_dfs.append(lagged_df)
+
+            # Use pd.concat to efficiently merge lagged features at once
+            data = pd.concat([data] + lagged_dfs, axis=1)
+
+            # De-fragment the DataFrame
+            data = data.copy()
+
             system_logger.info("Lagged features created successfully.")
             return data
         except Exception as e:
             system_logger.error(f"Error creating lagged features: {e}")
             raise
+
 
     @staticmethod
     def engineer_features(data):

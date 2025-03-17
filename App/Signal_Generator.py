@@ -2,10 +2,10 @@
 
 import pandas as pd
 import numpy as np
-from Feature_engineering import FeatureEngineering
-from model import Model
+from App.Feature_engineering import FeatureEngineering
+from App.model import Model
 from sklearn.metrics import accuracy_score
-from Logger import System_Log
+from App.Logger import System_Log
 
 # Setup the logger
 system_logger = System_Log.setup_logger('signal_generator')
@@ -17,22 +17,25 @@ class SignalGenerator:
         Generate trading signals based on patterns and indicators.
         """
         try:
-            data['Rule_Signal'] = 0
+            data['Rule_Signal'] = 0  # Default to no signal
 
-            # Example: Buy signal when RSI < 30 and MACD > MACD Signal
+            # Example: Buy when RSI < 30 and MACD > MACD Signal
             data.loc[(data['RSI'] < 30) & (data['MACD'] > data['MACD_Signal']), 'Rule_Signal'] = 1
-            # Example: Sell signal when RSI > 70 and MACD < MACD Signal
+            # Example: Sell when RSI > 70 and MACD < MACD Signal
             data.loc[(data['RSI'] > 70) & (data['MACD'] < data['MACD_Signal']), 'Rule_Signal'] = -1
 
-            # Add more rule-based signals as needed
-            data.loc[data['bullish_engulfing'], 'Rule_Signal'] = 1
-            data.loc[data['bearish_engulfing'], 'Rule_Signal'] = -1
+            # Ensure the `Signal` column is created
+            if 'Signal' not in data.columns:
+                data['Signal'] = data['Rule_Signal']  # Assign rule-based signals as default
 
             system_logger.info("Rule-based signals generated successfully.")
             return data
         except Exception as e:
             system_logger.error(f"Error generating rule-based signals: {e}")
             raise
+
+
+
 
     @staticmethod
     def generate_consensus_signal(data):
@@ -54,11 +57,35 @@ class SignalGenerator:
         Backtest trading strategy based on generated signals.
         """
         try:
+            # Ensure data is not empty
+            if data.empty:
+                system_logger.error("Backtesting failed: Data is empty.")
+                raise ValueError("Backtesting requires a non-empty dataset.")
+
+            # Ensure we have at least two rows
+            if len(data) < 2:
+                system_logger.error("Not enough data for backtesting.")
+                raise ValueError("Backtesting requires at least two rows of data.")
+
+            # Reset index to ensure sequential order
+            data = data.reset_index(drop=True)
+
             balance = initial_balance
             position = 0  # 1 for long, -1 for short
             balance_history = []
 
             for index, row in data.iterrows():
+                if index == 0:  # First row, no previous price available
+                    balance_history.append(balance)
+                    continue
+
+                # Ensure previous_close is valid
+                if index > 0 and index < len(data):  
+                    previous_close = data['Close'].iloc[index - 1]
+                else:
+                    previous_close = row['Close']  # Default to current price if out of bounds
+
+                # Execute buy/sell based on Consensus Signal
                 if row['Consensus_Signal'] == 1:  # Buy signal
                     if position <= 0:
                         position = 1
@@ -68,10 +95,7 @@ class SignalGenerator:
                         position = -1
                         balance += row['Close']  # Sell at close price
 
-                # Update balance based on position
-                if index > 0:
-                    balance += position * (row['Close'] - data['Close'].iloc[index - 1])
-
+                balance += position * (row['Close'] - previous_close)
                 balance_history.append(balance)
 
             data['Balance'] = balance_history
@@ -80,6 +104,9 @@ class SignalGenerator:
         except Exception as e:
             system_logger.error(f"Error in backtesting: {e}")
             raise
+
+
+
 
     @staticmethod
     def evaluate_signals(data):
