@@ -93,25 +93,46 @@ def main():
     visualiser.plot_balance(backtested_data, tickers)
 
     # 🔹 Forecasting
-    logger.info("Running forecasting model (ARIMA)...")
-    forecaster = ForecastingFactory.get_forecaster("ARIMA", order=(5, 1, 0))
-    forecast = forecaster.forecast(data, steps=10)
+    # 🔹 Run All Forecasters Sequentially
+    forecasting_models = ["LSTM", "GRU", "ARIMA", "HoltWinters", "LinearRegression"]
+    forecasts = {}
 
-    # 🔹 Risk Management
-    latest_close = backtested_data['Close'].iloc[-1]
-    latest_balance = backtested_data['Balance'].iloc[-1]
-    latest_atr = data['ATR'].iloc[-1] if 'ATR' in data.columns else 1.5
+    for model_name in forecasting_models:
+        try:
+            logger.info(f"Running forecasting model ({model_name})...")
+            forecaster = ForecastingFactory.get_forecaster(model_name)
+            forecasts[model_name] = forecaster.forecast(data, steps=10)
 
-    trade_data = {
-        'ticker': tickers,
-        'entry_price': latest_close,
-        'strategy': 'percentage',
-        'capital': initial_capital,
-        'atr': latest_atr,
-        'liquidity_data': {'volume': data['Volume'].iloc[-1], 'spread': 0.01}
-    }
+            logger.info(f"{model_name} forecasting completed successfully.")
+        except Exception as e:
+            logger.error(f"Error running {model_name} forecaster: {e}")
 
-    risk_assessment = risk_manager.run(trade_data, portfolio_value=latest_balance)
+    
+    # 🔹 Default Risk Assessment
+    risk_assessment = {"status": "skipped", "reason": "Risk management not executed"}
+
+    try:
+        # Ensure 'Balance' column exists before risk assessment
+        if 'Balance' in backtested_data.columns:
+            latest_close = backtested_data['Close'].iloc[-1]
+            latest_balance = backtested_data['Balance'].iloc[-1]
+            latest_atr = data['ATR'].iloc[-1] if 'ATR' in data.columns else 1.5
+
+            trade_data = {
+                'ticker': tickers[0],
+                'entry_price': latest_close,
+                'strategy': 'percentage',
+                'capital': initial_capital,
+                'atr': latest_atr,
+                'liquidity_data': {'volume': data['volume'].iloc[-1], 'spread': 0.01}
+            }
+
+            risk_assessment = risk_manager.run(trade_data, portfolio_value=latest_balance)
+        else:
+            logger.warning("Skipping risk management due to missing Balance data.")
+
+    except Exception as e:
+        logger.error(f"Error in risk management: {e}")
 
     # 🔹 Stock Screening
     data = FeatureEngineering.calculate_resistance(data)
@@ -125,11 +146,25 @@ def main():
 
     # 🔹 Report Generation
     logger.info("Generating trade execution report...")
+    # 🔹 Standardize Forecast Lengths for Report
+    max_forecast_length = max(len(forecast) for forecast in forecasts.values())
+
+    # Ensure all forecasts have the same length
+    for model_name, forecast in forecasts.items():
+        if len(forecast) < max_forecast_length:
+            forecasts[model_name] = list(forecast) + [None] * (max_forecast_length - len(forecast))
+
+    # 🔹 Store Forecasts in Report
     report_file = report_generator.generate_report(
         backtested_data.to_dict(orient='records')[:10],
         [risk_assessment],
-        forecast.tolist() if hasattr(forecast, 'tolist') else list(forecast)
+        {model: forecast.tolist() if hasattr(forecast, "tolist") else list(forecast) for model, forecast in forecasts.items()}
     )
+
+
+    # 🔹 Plot Forecast Results
+    Visualiser.plot_forecasts(data, forecasts, tickers[0])
+
 
     logger.info(f"Report saved at: {report_file}")
     logger.info("Trading pipeline completed successfully!")

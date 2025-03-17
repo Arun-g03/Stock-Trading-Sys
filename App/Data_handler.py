@@ -46,6 +46,7 @@ class DataHandler:
             
             data.reset_index(inplace=True)
             system_logger.info(f"Data loaded successfully from Yahoo Finance for {ticker} from {start_date} to {end_date}")
+            system_logger.info(data)
             return data
         except Exception as e:
             system_logger.error(f"Error loading data from Yahoo Finance: {e}")

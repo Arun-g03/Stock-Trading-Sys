@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 from App.Logger import System_Log
 
 # Setup the logger
@@ -104,6 +105,50 @@ class Visualiser:
         except Exception as e:
             system_logger.error(f"Error plotting multiple indicators for {ticker}: {e}")
             raise
+
+    
+    @staticmethod
+    def plot_forecasts(data, forecasts, ticker):
+        """
+        Plot forecasted prices from multiple forecasting models, ensuring all forecasts start from the last known price.
+        """
+        try:
+            plt.figure(figsize=(14, 7))
+
+            # Check if 'Date' is a column or index
+            if isinstance(data.index, pd.DatetimeIndex):
+                date_values = data.index  # Use index if it's already a DatetimeIndex
+            else:
+                date_values = data['Date']
+
+            # Plot actual close prices
+            plt.plot(date_values, data['Close'], label='Actual Close Price', color='black')
+
+            # Get the last known price and date
+            last_known_price = data['Close'].iloc[-1]
+            last_known_date = date_values[-1]  # Use `[-1]` instead of `.iloc[-1]`
+
+            # Plot each forecasting model's results
+            for model_name, forecast in forecasts.items():
+                forecast_dates = pd.date_range(start=last_known_date, periods=len(forecast) + 1, freq='B')[1:]
+
+                # Ensure forecasts start from the last known price
+                adjusted_forecast = [last_known_price] + list(forecast)
+
+                plt.plot(forecast_dates, adjusted_forecast[1:], label=f"{model_name} Forecast")
+
+            plt.title(f'Forecasts for {ticker}')
+            plt.xlabel('Date')
+            plt.ylabel('Price')
+            plt.legend()
+            plt.show()
+            system_logger.info(f"Forecasts plotted for {ticker}")
+        except Exception as e:
+            system_logger.error(f"Error plotting forecasts for {ticker}: {e}")
+            raise
+
+
+
 
 # Example usage:
 # data = pd.read_csv('path_to_your_csv')
