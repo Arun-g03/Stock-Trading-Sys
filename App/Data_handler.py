@@ -24,12 +24,12 @@ class DataHandler:
             raise
 
     @staticmethod
-    def load_from_yfinance(ticker, start_date, end_date):
+    def load_from_yfinance(ticker, start_date, end_date, interval='1d'):
         """
         Load historical data from Yahoo Finance with proper column handling.
         """
         try:
-            data = yf.download(ticker, start=start_date, end=end_date)
+            data = yf.download(ticker, start=start_date, end=end_date, interval=interval)
             if data.empty:
                 raise ValueError("No data received from Yahoo Finance. Check API requests.")
             
@@ -51,7 +51,6 @@ class DataHandler:
         except Exception as e:
             system_logger.error(f"Error loading data from Yahoo Finance: {e}")
             raise
-
     @staticmethod
     def load_from_alpaca(ticker, start_date, end_date, api_key, api_secret, base_url):
         """

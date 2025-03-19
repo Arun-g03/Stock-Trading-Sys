@@ -85,15 +85,29 @@ class Indicators:
     @staticmethod
     def average_true_range(data, window=14):
         """
-        Calculate Average True Range (ATR).
+        Calculate the Average True Range (ATR) indicator.
         """
         try:
-            data['ATR'] = ta.volatility.AverageTrueRange(data['High'], data['Low'], data['Close'], window=window).average_true_range()
-            system_logger.info(f"Average True Range (window={window}) calculated successfully.")
+            # Automatically adjust window size if not enough data
+            actual_window = min(window, len(data) - 1) if len(data) > 1 else 1
+            
+            if actual_window < window:
+                system_logger.warning(f"Adjusted ATR window from {window} to {actual_window} due to limited data points")
+            
+            if actual_window >= 1:
+                data['ATR'] = ta.volatility.AverageTrueRange(
+                    data['High'], data['Low'], data['Close'], 
+                    window=actual_window
+                ).average_true_range()
+            else:
+                data['ATR'] = 0  # Fallback for extremely limited data
+                
+            system_logger.info("ATR calculated successfully.")
             return data
         except Exception as e:
-            system_logger.error(f"Error calculating Average True Range: {e}")
-            raise
+            system_logger.error(f"Error calculating ATR: {e}")
+            data['ATR'] = 0
+            return data
 
     @staticmethod
     def stochastic_oscillator(data, window=14, smooth_window=3):

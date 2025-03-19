@@ -24,7 +24,6 @@ class BaseForecast:
         raise NotImplementedError("Subclasses must implement this method.")
     
     def forecast(self, data, steps=10):
-        # For many models, we train and then predict. Override if different logic is needed.
         self.train(data)
         return self.predict(data, steps=steps)
 
@@ -78,50 +77,62 @@ class LSTMForecast(BaseForecast):
 
     def predict(self, data, steps=10):
         try:
-            # For one-step-ahead predictions on available data
             with torch.no_grad():
-                input_data = torch.FloatTensor(self.scaler.transform(data[['Close']].values.reshape(-1, 1))).unsqueeze(1)
-                predictions = self.model(input_data).numpy()
-                return self.scaler.inverse_transform(predictions)
+                # Scale input data
+                scaled_data = self.scaler.transform(data[['Close']].values.reshape(-1, 1))
+
+                # Initialize input sequence with the last known price
+                input_seq = torch.FloatTensor(scaled_data[-1:]).unsqueeze(0)  # Shape: (1, 1, 1)
+
+                predictions = []
+                for _ in range(steps):
+                    output = self.model(input_seq)  # FIXED: No unpacking needed
+                    pred_scaled = output.numpy()[0, 0]  # Extract single prediction
+
+                    predictions.append(pred_scaled)
+
+                    # Convert to tensor and append for next iteration
+                    input_seq = torch.FloatTensor([[pred_scaled]]).unsqueeze(0)  # Shape: (1, 1, 1)
+
+                # Convert predictions back to actual price scale
+                predictions = self.scaler.inverse_transform(np.array(predictions).reshape(-1, 1)).flatten()
+
+                return predictions
         except Exception as e:
-            system_logger.error(f"Error making LSTM predictions: {e}")
+            system_logger.error(f"Error making predictions: {e}")
             raise
 
-# GRU forecasting class
-class GRUForecast(BaseForecast):
-    def __init__(self, epochs=50, hidden_size=64, learning_rate=0.001):
-        super().__init__()
-        self.epochs = epochs
-        self.hidden_size = hidden_size
-        self.learning_rate = learning_rate
-        self.model = None
 
+
+# GRU forecasting class
+class GRUForecast(LSTMForecast):
+    def __init__(self, epochs=50, hidden_size=64, learning_rate=0.001):
+        super().__init__(epochs, hidden_size, learning_rate)
+    
     def train(self, data):
         try:
             if data.isnull().sum().any():
                 raise ValueError("Input data contains missing values.")
 
-            # Prepare data
+            # Apply the same scaler to both training and target data
             scaled_data = self.scaler.fit_transform(data[['Close']].values.reshape(-1, 1))
             train_data = torch.FloatTensor(scaled_data[:-1])
             target_data = torch.FloatTensor(scaled_data[1:])
 
-            # Define GRU model
             class GRUModel(nn.Module):
                 def __init__(self, input_size=1, hidden_size=self.hidden_size, output_size=1):
                     super(GRUModel, self).__init__()
                     self.gru = nn.GRU(input_size, hidden_size, batch_first=True)
                     self.fc = nn.Linear(hidden_size, output_size)
-                
+
                 def forward(self, x):
                     out, _ = self.gru(x)
                     return self.fc(out[:, -1])
-            
+
             self.model = GRUModel()
             criterion = nn.MSELoss()
             optimizer = optim.Adam(self.model.parameters(), lr=self.learning_rate)
 
-            # Training loop
             for epoch in range(self.epochs):
                 self.model.train()
                 optimizer.zero_grad()
@@ -129,21 +140,46 @@ class GRUForecast(BaseForecast):
                 loss = criterion(output, target_data.unsqueeze(1))
                 loss.backward()
                 optimizer.step()
+
                 if epoch % 10 == 0:
                     system_logger.info(f"GRU Epoch {epoch}/{self.epochs}, Loss: {loss.item()}")
         except Exception as e:
             system_logger.error(f"Error training GRU model: {e}")
             raise
 
+    # GRU Prediction - Makes future price predictions using a trained GRU model by iteratively
+    # feeding each prediction back into the model as input for the next step
     def predict(self, data, steps=10):
         try:
             with torch.no_grad():
-                input_data = torch.FloatTensor(self.scaler.transform(data[['Close']].values.reshape(-1, 1))).unsqueeze(1)
-                predictions = self.model(input_data).numpy()
-                return self.scaler.inverse_transform(predictions)
+                # Scale input data
+                scaled_data = self.scaler.transform(data[['Close']].values.reshape(-1, 1))
+
+                # Initialize input sequence with the last known price
+                input_seq = torch.FloatTensor(scaled_data[-1:]).unsqueeze(0)  # Shape: (1, 1, 1)
+
+                predictions = []
+                for _ in range(steps):
+                    output = self.model(input_seq)  # FIXED: No unpacking needed
+                    pred_scaled = output.numpy()[0, 0]  # Extract single prediction
+
+                    predictions.append(pred_scaled)
+
+                    # Convert to tensor and append for next iteration
+                    input_seq = torch.FloatTensor([[pred_scaled]]).unsqueeze(0)  # Shape: (1, 1, 1)
+
+                # Convert predictions back to actual price scale
+                predictions = self.scaler.inverse_transform(np.array(predictions).reshape(-1, 1)).flatten()
+
+                return predictions
         except Exception as e:
-            system_logger.error(f"Error making GRU predictions: {e}")
+            system_logger.error(f"Error making predictions: {e}")
             raise
+
+
+
+
+
 
 
 
@@ -254,7 +290,7 @@ class LinearRegressionForecast(BaseForecast):
         return self.predict(data, steps=steps)
 
 # Factory to instantiate the appropriate forecaster
-class ForecastingFactory:
+class ForecasterSelector:
     @staticmethod
     def get_forecaster(method="LSTM", **kwargs):
         if method == "LSTM":

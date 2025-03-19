@@ -125,7 +125,7 @@ class Visualiser:
             plt.plot(date_values, data['Close'], label='Actual Close Price', color='black')
 
             # Get the last known price and date
-            last_known_price = data['Close'].iloc[-1]
+            last_known_price = data['Close'][-1]
             last_known_date = date_values[-1]  # Use `[-1]` instead of `.iloc[-1]`
 
             # Plot each forecasting model's results
