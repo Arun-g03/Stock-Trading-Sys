@@ -1,8 +1,10 @@
 reports/report_2025-03-17_17-56-54.xlsx
 App/__pycache__/
 Config/__pycache__/
-App/__pycache__/Data_handler.cpython-39.pyc
-App/__pycache__/Indicators.cpython-39.pyc
+
 logs/system.log
 reports/
 .log
+PassiveForecaster/data/__pycache__/
+PassiveForecaster/forecasts/__pycache__/
+PassiveForecaster/gui/__pycache__/

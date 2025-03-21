@@ -12,7 +12,10 @@ from App.ReportGenerator import ReportGenerator
 from App.Visualiser import Visualiser
 from App.Indicators import Indicators
 from App.Logger import System_Log
+from time import sleep
 
+
+logger = System_Log.setup_logger("main")
 
 def train_forecasters(data):
     """Train forecasting models on historical data."""
@@ -69,7 +72,7 @@ def full_trading_pipeline():
     risk_manager = RiskManager(risk_per_trade=0.02, max_drawdown=0.1)
     screener = StockScreener(min_market_cap=1e10, min_volume=1e6, min_volatility=0.02)
     report_generator = ReportGenerator()
-    logger = System_Log.setup_logger("main")
+    
 
     logger.info("Fetching and validating data...")
     data = data_handler.load_from_yfinance(tickers, start_date, end_date)
@@ -244,7 +247,7 @@ def real_time_simulation(ticker="AAPL"):
         Visualiser.plot_forecasts(live_data, forecasts, ticker)
 
         # Simulate real-time delay (optional, adjust for testing speed)
-        time.sleep(1)  # Wait 1 second before processing the next minute
+        sleep(1)  # Wait 1 second before processing the next minute
 
     logger.info("Real-time simulation completed!")
 
