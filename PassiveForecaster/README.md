@@ -1,6 +1,6 @@
 
 
-# 📈 Stock Forecast GUI (Standalone Module)
+# 📈 Passive Forecaster/Stock Forecast GUI (Standalone Module)
 
 This is a standalone stock price forecasting GUI built in Python using Tkinter and Matplotlib. It allows users to visualise and compare forecasts from multiple models — LSTM, GRU, ARIMA, Holt-Winters, and Linear Regression — with optional warm-up periods for improved accuracy.
 
