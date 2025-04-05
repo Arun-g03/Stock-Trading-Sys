@@ -6,6 +6,7 @@ from sklearn.preprocessing import MinMaxScaler
 from Patterns import Patterns
 from Indicators import Indicators
 from Logger import System_Log
+import traceback
 
 # Setup the logger
 system_logger = System_Log.setup_logger('feature_engineering')
@@ -31,6 +32,7 @@ class FeatureEngineering:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating volatility: {e}")
+            traceback.print_exc()
             raise
 
 
@@ -50,6 +52,7 @@ class FeatureEngineering:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating resistance levels: {e}")
+            traceback.print_exc()
             raise
 
 
@@ -69,6 +72,7 @@ class FeatureEngineering:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating support levels: {e}")
+            traceback.print_exc()
             raise
 
 
@@ -88,6 +92,7 @@ class FeatureEngineering:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating volume moving average: {e}")
+            traceback.print_exc()
             raise
 
 
@@ -123,6 +128,7 @@ class FeatureEngineering:
             return data
         except Exception as e:
             system_logger.error(f"Error adding patterns: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -153,6 +159,7 @@ class FeatureEngineering:
             return data
         except Exception as e:
             system_logger.error(f"Error adding indicators: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -168,6 +175,7 @@ class FeatureEngineering:
             return data
         except Exception as e:
             system_logger.error(f"Error handling missing values: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -182,6 +190,7 @@ class FeatureEngineering:
             return data
         except Exception as e:
             system_logger.error(f"Error normalising data: {e}")
+            traceback.print_exc()
             raise
 
     
@@ -206,6 +215,7 @@ class FeatureEngineering:
             return data
         except Exception as e:
             system_logger.error(f"Error creating lagged features: {e}")
+            traceback.print_exc()
             raise
 
 
@@ -230,6 +240,7 @@ class FeatureEngineering:
             return data
         except Exception as e:
             system_logger.error(f"Error in feature engineering: {e}")
+            traceback.print_exc()
             raise
 
 # Example usage:

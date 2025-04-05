@@ -1,3 +1,7 @@
+import traceback
+
+
+
 class RiskManager:
     def __init__(self, risk_per_trade: float, max_drawdown: float):
         """Initialize risk parameters such as risk per trade and max portfolio drawdown."""

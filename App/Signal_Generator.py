@@ -6,6 +6,7 @@ from Feature_engineering import FeatureEngineering
 from model import Model
 from sklearn.metrics import accuracy_score
 from Logger import System_Log
+import traceback
 
 # Setup the logger
 system_logger = System_Log.setup_logger('signal_generator')
@@ -32,6 +33,7 @@ class SignalGenerator:
             return data
         except Exception as e:
             system_logger.error(f"Error generating rule-based signals: {e}")
+            traceback.print_exc()
             raise
 
 
@@ -49,6 +51,7 @@ class SignalGenerator:
             return data
         except Exception as e:
             system_logger.error(f"Error generating consensus signal: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -60,12 +63,14 @@ class SignalGenerator:
             # Ensure data is not empty
             if data.empty:
                 system_logger.error("Backtesting failed: Data is empty.")
-                raise ValueError("Backtesting requires a non-empty dataset.")
+                traceback.print_exc()
+            raise ValueError("Backtesting requires a non-empty dataset.")
 
             # Ensure we have at least two rows
             if len(data) < 2:
                 system_logger.error("Not enough data for backtesting.")
-                raise ValueError("Backtesting requires at least two rows of data.")
+                traceback.print_exc()
+            raise ValueError("Backtesting requires at least two rows of data.")
 
             # Reset index to ensure sequential order
             data = data.reset_index(drop=True)
@@ -103,6 +108,7 @@ class SignalGenerator:
             return data
         except Exception as e:
             system_logger.error(f"Error in backtesting: {e}")
+            traceback.print_exc()
             raise
 
 
@@ -123,6 +129,7 @@ class SignalGenerator:
             return rule_accuracy, model_accuracy
         except Exception as e:
             system_logger.error(f"Error evaluating signals: {e}")
+            traceback.print_exc()
             raise
 
 # Example usage:

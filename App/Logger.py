@@ -2,6 +2,7 @@
 
 import logging
 import os
+import traceback
 
 # Configuration for the logging directory
 LOG_DIR = 'logs'

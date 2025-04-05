@@ -3,6 +3,7 @@
 import pandas as pd
 from Logger import System_Log
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+import traceback
 
 # Setup the logger
 system_logger = System_Log.setup_logger('validator')
@@ -34,6 +35,7 @@ class Validator:
 
         except Exception as e:
             system_logger.error(f"Error validating data integrity: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -59,6 +61,7 @@ class Validator:
 
         except Exception as e:
             system_logger.error(f"Error validating data quality: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -80,6 +83,7 @@ class Validator:
 
         except Exception as e:
             system_logger.error(f"Error validating processed data: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -90,7 +94,8 @@ class Validator:
         """
         try:
             if 'Model_Signal' not in data.columns:
-                raise ValueError("Model_Signal column not found in data.")
+                traceback.print_exc()
+            raise ValueError("Model_Signal column not found in data.")
 
             y_true = data[target_column]
             y_pred = data['Model_Signal']
@@ -107,6 +112,7 @@ class Validator:
 
         except Exception as e:
             system_logger.error(f"Error validating model results: {e}")
+            traceback.print_exc()
             raise
 
 # Example usage:

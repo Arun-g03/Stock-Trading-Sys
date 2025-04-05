@@ -20,4 +20,5 @@ class ForecasterSelector:
         elif method == "LinearRegression":
             return LinearRegressionForecast()
         else:
+            traceback.print_exc()
             raise ValueError("Invalid forecasting method.")

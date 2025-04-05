@@ -3,11 +3,6 @@
 # Set log path
 LOG_PATH = 'logs/system.log'
 
-sys.path.append(r"Z:\\")
-
-# Correct import syntax — just the filename (no extension)
-from AlpacaKeys import ALPACA_ENDPOINT, ALPACA_KEY, ALPACA_SECRET #type: ignore
-
 
 # Time Intervals Configuration
 INTERVALS = {
@@ -19,7 +14,7 @@ INTERVALS = {
 }
 
 
-
+TRADE_DATA_SOURCE = 'yfinance' #yfinance or alpaca
 
 
 # WindowConfig.py

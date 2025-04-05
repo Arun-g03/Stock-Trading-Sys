@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 from Logger import System_Log
+import traceback
 
 # Setup the logger
 system_logger = System_Log.setup_logger('visualiser')
@@ -25,6 +26,7 @@ class Visualiser:
             system_logger.info(f"Historical data plotted for {ticker}")
         except Exception as e:
             system_logger.error(f"Error plotting historical data for {ticker}: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -44,6 +46,7 @@ class Visualiser:
             system_logger.info(f"{indicator} plotted for {ticker}")
         except Exception as e:
             system_logger.error(f"Error plotting {indicator} for {ticker}: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -66,6 +69,7 @@ class Visualiser:
             system_logger.info(f"Buy/Sell signals plotted for {ticker}")
         except Exception as e:
             system_logger.error(f"Error plotting signals for {ticker}: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -84,6 +88,7 @@ class Visualiser:
             system_logger.info(f"Backtesting balance plotted for {ticker}")
         except Exception as e:
             system_logger.error(f"Error plotting backtesting balance for {ticker}: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -104,6 +109,7 @@ class Visualiser:
             system_logger.info(f"Multiple indicators plotted for {ticker}")
         except Exception as e:
             system_logger.error(f"Error plotting multiple indicators for {ticker}: {e}")
+            traceback.print_exc()
             raise
 
     
@@ -145,6 +151,7 @@ class Visualiser:
             system_logger.info(f"Forecasts plotted for {ticker}")
         except Exception as e:
             system_logger.error(f"Error plotting forecasts for {ticker}: {e}")
+            traceback.print_exc()
             raise
 
 

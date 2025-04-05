@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 from sklearn.metrics import mean_squared_error, mean_absolute_error
+import traceback
 
 class ARIMAForecast:
     def __init__(self, order=(5, 1, 0)):
@@ -28,7 +29,8 @@ class ARIMAForecast:
     def predict(self, data: pd.DataFrame, steps=10):
         try:
             if self.model is None:
-                raise ValueError("Model not trained")
+            traceback.print_exc()
+            raise ValueError("Model not trained")
             return self.model.forecast(steps=steps)
         except Exception as e:
             logging.error(f"Error making ARIMA predictions: {e}")

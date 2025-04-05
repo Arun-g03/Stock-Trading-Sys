@@ -2,6 +2,7 @@ import yfinance as yf
 import matplotlib.pyplot as plt
 import pandas as pd
 from Indicators import Indicators
+import traceback
 
 # Fetch Apple stock data
 symbol = "AAPL"
@@ -12,6 +13,7 @@ data.columns = [col[0] for col in data.columns]  # Keep only first level (Price)
 
 # Ensure 'Close' column is accessible
 if "Close" not in data.columns:
+    traceback.print_exc()
     raise KeyError("The 'Close' column is missing after processing. Check column structure.")
 
 print("\n📌 Fixed DataFrame Structure:")

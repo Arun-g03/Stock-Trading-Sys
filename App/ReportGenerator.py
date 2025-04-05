@@ -6,6 +6,7 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.drawing.image import Image
+import traceback
 
 class ReportGenerator:
     def __init__(self, output_dir="reports"):

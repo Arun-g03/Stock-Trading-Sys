@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import ta
 from Logger import System_Log
+import traceback
 
 # Setup the logger
 system_logger = System_Log.setup_logger('patterns')
@@ -23,6 +24,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Higher Highs and Lower Lows: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -37,6 +39,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Double Top pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -54,6 +57,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Head and Shoulders pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -70,6 +74,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Triple Bottom pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -85,6 +90,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Cup and Handle pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -101,6 +107,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Bullish Engulfing pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -117,6 +124,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Bearish Engulfing pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -132,6 +140,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Morning Star pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -147,6 +156,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Evening Star pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -162,6 +172,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Hammer pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -177,6 +188,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Shooting Star pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -193,6 +205,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying RSI Divergence: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -208,6 +221,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Bollinger Band Squeeze: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -232,15 +246,22 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Moving Average Crossover: {e}")
+            traceback.print_exc()
             raise
 
 
     @staticmethod
+    
     def adx_trend_strength(data, window=14):
         """
         Identify ADX Trend Strength in the data.
         """
         try:
+            if len(data) < window:
+                data['adx'] = np.nan
+                data['strong_trend'] = False
+                return data
+
             adx = ta.trend.ADXIndicator(data['High'], data['Low'], data['Close'], window=window)
             data['adx'] = adx.adx()
             data['strong_trend'] = data['adx'] > 25
@@ -248,7 +269,10 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying ADX Trend Strength: {e}")
+            traceback.print_exc()
+            
             raise
+
 
     @staticmethod
     def stochastic_oscillator(data, window=14):
@@ -265,6 +289,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Stochastic Oscillator: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -281,6 +306,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Pennant pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -298,6 +324,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Flag pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -312,6 +339,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Wedge pattern: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -327,6 +355,7 @@ class Patterns:
             return data
         except Exception as e:
             system_logger.error(f"Error identifying Triangle pattern: {e}")
+            traceback.print_exc()
             raise
 
 # Example usage:

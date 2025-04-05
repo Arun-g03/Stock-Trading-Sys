@@ -1,5 +1,6 @@
 import pandas as pd
 from Logger import System_Log
+import traceback
 
 system_logger = System_Log.setup_logger('Screener')
 

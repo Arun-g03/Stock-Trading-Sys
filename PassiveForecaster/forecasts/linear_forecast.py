@@ -6,6 +6,7 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn.preprocessing import MinMaxScaler
+import traceback
 
 class LinearRegressionForecast:
     def __init__(self, window_size=5):
@@ -47,7 +48,8 @@ class LinearRegressionForecast:
     def predict(self, data: pd.DataFrame, steps=10):
         try:
             if self.model is None:
-                raise ValueError("Model not trained")
+            traceback.print_exc()
+            raise ValueError("Model not trained")
             series = data['Close'].values
             predictions = []
             input_seq = list(series[-self.window_size:])

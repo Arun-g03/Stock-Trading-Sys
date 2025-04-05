@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import joblib
 from Logger import System_Log
-
+import traceback
 # Setup the logger
 system_logger = System_Log.setup_logger('model')
 
@@ -18,7 +18,8 @@ class Model:
         """
         try:
             if target_column not in data.columns:
-                raise KeyError(f"'{target_column}' column not found in the dataset.")
+                traceback.print_exc()
+            raise KeyError(f"'{target_column}' column not found in the dataset.")
 
             feature_columns = [col for col in data.columns if col not in ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', target_column]]
             X = data[feature_columns]
@@ -36,9 +37,11 @@ class Model:
             return model, accuracy
         except KeyError as e:
             system_logger.error(f"Missing target column: {e}")
+            traceback.print_exc()
             raise
         except Exception as e:
             system_logger.error(f"Error training model: {e}")
+            traceback.print_exc()
             raise
 
 
@@ -52,6 +55,7 @@ class Model:
             system_logger.info(f"Model saved successfully to {file_path}")
         except Exception as e:
             system_logger.error(f"Error saving model: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -65,6 +69,7 @@ class Model:
             return model
         except Exception as e:
             system_logger.error(f"Error loading model: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -87,5 +92,6 @@ class Model:
             return data
         except Exception as e:
             system_logger.error(f"Error applying model: {e}")
+            traceback.print_exc()
             raise
 

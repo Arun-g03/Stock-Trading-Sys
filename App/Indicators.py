@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import ta
 from Logger import System_Log
+import traceback
 
 # Setup the logger
 system_logger = System_Log.setup_logger('indicators')
@@ -20,6 +21,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Moving Average: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -33,6 +35,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Exponential Moving Average: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -47,6 +50,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Relative Strength Index: {e}")
+            traceback.print_exc()
             raise
 
 
@@ -64,6 +68,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Bollinger Bands: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -80,6 +85,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating MACD: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -122,6 +128,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Stochastic Oscillator: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -135,6 +142,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Commodity Channel Index: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -152,6 +160,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Ichimoku Cloud: {e}")
+            traceback.print_exc()
             raise
 
     
@@ -163,7 +172,8 @@ class Indicators:
         try:
             # Ensure 'High' and 'Low' columns exist in the DataFrame
             if 'High' not in data.columns or 'Low' not in data.columns:
-                raise ValueError("Data must contain 'High' and 'Low' columns to calculate Aroon Indicator.")
+                traceback.print_exc()
+            raise ValueError("Data must contain 'High' and 'Low' columns to calculate Aroon Indicator.")
 
             # Calculate Aroon Indicator
             aroon = ta.trend.AroonIndicator(high=data['High'], low=data['Low'], window=window)
@@ -174,6 +184,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Aroon Indicator: {e}")
+            traceback.print_exc()
             raise
 
 
@@ -188,6 +199,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Parabolic SAR: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -202,6 +214,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating VWAP: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -215,6 +228,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating OBV: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -228,6 +242,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating MFI: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -241,6 +256,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating CMF: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -254,6 +270,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating EOM: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -267,6 +284,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating ADI: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -281,6 +299,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Ultimate Oscillator: {e}")
+            traceback.print_exc()
             raise
 
     @staticmethod
@@ -296,6 +315,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Z-Score: {e}")
+            traceback.print_exc()
             raise
     
     @staticmethod
@@ -311,6 +331,7 @@ class Indicators:
             return sharpe_ratio
         except Exception as e:
             system_logger.error(f"Error calculating Sharpe Ratio: {e}")
+            traceback.print_exc()
             raise
     
     @staticmethod
@@ -326,6 +347,7 @@ class Indicators:
             return sortino_ratio
         except Exception as e:
             system_logger.error(f"Error calculating Sortino Ratio: {e}")
+            traceback.print_exc()
             raise
     
     @staticmethod
@@ -343,6 +365,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating Pivot Points: {e}")
+            traceback.print_exc()
             raise
     
     @staticmethod
@@ -364,6 +387,7 @@ class Indicators:
             return levels
         except Exception as e:
             system_logger.error(f"Error calculating Fibonacci Retracement: {e}")
+            traceback.print_exc()
             raise
     
     @staticmethod
@@ -379,6 +403,7 @@ class Indicators:
             return hurst
         except Exception as e:
             system_logger.error(f"Error calculating Hurst Exponent: {e}")
+            traceback.print_exc()
             raise
     
     @staticmethod
@@ -393,6 +418,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating DPO: {e}")
+            traceback.print_exc()
             raise
     
     @staticmethod
@@ -406,6 +432,7 @@ class Indicators:
             return data
         except Exception as e:
             system_logger.error(f"Error calculating ROC: {e}")
+            traceback.print_exc()
             raise
 
 

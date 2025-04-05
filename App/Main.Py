@@ -14,6 +14,8 @@ from Indicators import Indicators
 from Logger import System_Log
 from time import sleep
 from GUI import LiveTradingGUI
+import tkinter as tk
+import traceback
 
 logger = System_Log.setup_logger("main")
 

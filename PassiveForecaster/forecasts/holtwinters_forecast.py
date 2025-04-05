@@ -33,7 +33,8 @@ class HoltWintersForecast:
     def predict(self, data: pd.DataFrame, steps=10):
         try:
             if self.model is None:
-                raise ValueError("Model not trained")
+            traceback.print_exc()
+            raise ValueError("Model not trained")
             return self.model.forecast(steps=steps)
         except Exception as e:
             logging.error(f"Error making Holt-Winters predictions: {e}")

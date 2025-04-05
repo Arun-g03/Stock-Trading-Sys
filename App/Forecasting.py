@@ -8,6 +8,7 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import LinearRegression
 from Logger import System_Log
+import traceback
 
 # Setup the logger
 system_logger = System_Log.setup_logger('forecasting_model')
@@ -18,9 +19,11 @@ class BaseForecast:
         self.scaler = MinMaxScaler(feature_range=(0, 1))
     
     def train(self, data):
+        traceback.print_exc()
         raise NotImplementedError("Subclasses must implement this method.")
     
     def predict(self, data, steps=10):
+        traceback.print_exc()
         raise NotImplementedError("Subclasses must implement this method.")
     
     def forecast(self, data, steps=10):
@@ -39,7 +42,8 @@ class LSTMForecast(BaseForecast):
     def train(self, data):
         try:
             if data.isnull().sum().any():
-                raise ValueError("Input data contains missing values.")
+                traceback.print_exc()
+            raise ValueError("Input data contains missing values.")
 
             # Prepare data
             scaled_data = self.scaler.fit_transform(data[['Close']].values.reshape(-1, 1))
@@ -73,6 +77,7 @@ class LSTMForecast(BaseForecast):
                     system_logger.info(f"LSTM Epoch {epoch}/{self.epochs}, Loss: {loss.item()}")
         except Exception as e:
             system_logger.error(f"Error training LSTM model: {e}")
+            traceback.print_exc()
             raise
 
     def predict(self, data, steps=10):
@@ -100,6 +105,7 @@ class LSTMForecast(BaseForecast):
                 return predictions
         except Exception as e:
             system_logger.error(f"Error making predictions: {e}")
+            traceback.print_exc()
             raise
 
 
@@ -112,7 +118,8 @@ class GRUForecast(LSTMForecast):
     def train(self, data):
         try:
             if data.isnull().sum().any():
-                raise ValueError("Input data contains missing values.")
+                traceback.print_exc()
+            raise ValueError("Input data contains missing values.")
 
             # Apply the same scaler to both training and target data
             scaled_data = self.scaler.fit_transform(data[['Close']].values.reshape(-1, 1))
@@ -145,6 +152,7 @@ class GRUForecast(LSTMForecast):
                     system_logger.info(f"GRU Epoch {epoch}/{self.epochs}, Loss: {loss.item()}")
         except Exception as e:
             system_logger.error(f"Error training GRU model: {e}")
+            traceback.print_exc()
             raise
 
     # GRU Prediction - Makes future price predictions using a trained GRU model by iteratively
@@ -174,6 +182,7 @@ class GRUForecast(LSTMForecast):
                 return predictions
         except Exception as e:
             system_logger.error(f"Error making predictions: {e}")
+            traceback.print_exc()
             raise
 
 
@@ -202,6 +211,7 @@ class ARIMAForecast:
             system_logger.info("ARIMA model trained successfully.")
         except Exception as e:
             system_logger.error(f"Error training ARIMA model: {e}")
+            traceback.print_exc()
             raise
 
     def predict(self, steps=10):
@@ -210,6 +220,7 @@ class ARIMAForecast:
             return forecast
         except Exception as e:
             system_logger.error(f"Error making ARIMA predictions: {e}")
+            traceback.print_exc()
             raise
 
     def forecast(self, data, steps=10):
@@ -234,6 +245,7 @@ class HoltWintersForecast(BaseForecast):
             system_logger.info("Holt–Winters model trained successfully.")
         except Exception as e:
             system_logger.error(f"Error training Holt–Winters model: {e}")
+            traceback.print_exc()
             raise
 
     def predict(self, data, steps=10):
@@ -242,6 +254,7 @@ class HoltWintersForecast(BaseForecast):
             return forecast
         except Exception as e:
             system_logger.error(f"Error making Holt–Winters predictions: {e}")
+            traceback.print_exc()
             raise
 
     def forecast(self, data, steps=10):
@@ -268,6 +281,7 @@ class LinearRegressionForecast(BaseForecast):
             system_logger.info("Linear Regression model trained successfully.")
         except Exception as e:
             system_logger.error(f"Error training Linear Regression model: {e}")
+            traceback.print_exc()
             raise
 
     def predict(self, data, steps=10):
@@ -283,6 +297,7 @@ class LinearRegressionForecast(BaseForecast):
             return np.array(predictions)
         except Exception as e:
             system_logger.error(f"Error making Linear Regression predictions: {e}")
+            traceback.print_exc()
             raise
 
     def forecast(self, data, steps=10):
@@ -304,6 +319,7 @@ class ForecasterSelector:
         elif method == "LinearRegression":
             return LinearRegressionForecast(**kwargs)
         else:
+            traceback.print_exc()
             raise ValueError("Invalid forecasting method selected. "
                              "Choose one of 'LSTM', 'GRU', 'ARIMA', 'HoltWinters', or 'LinearRegression'.")
 

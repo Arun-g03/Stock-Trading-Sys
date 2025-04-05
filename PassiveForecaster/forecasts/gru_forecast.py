@@ -23,7 +23,8 @@ class GRUForecast:
     def train(self, data: pd.DataFrame):
         try:
             if data.isnull().sum().any():
-                raise ValueError("Input data contains missing values.")
+            traceback.print_exc()
+            raise ValueError("Input data contains missing values.")
             scaled_data = self.scaler.fit_transform(data[['Close']].values.reshape(-1, 1))
             train_data = torch.FloatTensor(scaled_data[:-1])
             target_data = torch.FloatTensor(scaled_data[1:])
