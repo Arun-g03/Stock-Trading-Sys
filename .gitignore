@@ -8,3 +8,4 @@ reports/
 PassiveForecaster/data/__pycache__/
 PassiveForecaster/forecasts/__pycache__/
 PassiveForecaster/gui/__pycache__/
+App/ALPACA_KEYS.py
