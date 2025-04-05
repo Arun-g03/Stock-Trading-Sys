@@ -7,7 +7,7 @@ from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import LinearRegression
-from App.Logger import System_Log
+from Logger import System_Log
 
 # Setup the logger
 system_logger = System_Log.setup_logger('forecasting_model')

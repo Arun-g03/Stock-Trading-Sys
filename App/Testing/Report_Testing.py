@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-from App.ReportGenerator import ReportGenerator
+from ReportGenerator import ReportGenerator
 # Sample test data
 trade_data = [
     {"ticker": "AAPL", "decision": "BUY", "entry_price": 175.5, "stop_loss": 170.0, "take_profit": 185.0},

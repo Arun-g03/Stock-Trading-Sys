@@ -6,10 +6,6 @@ import os
 #DO NOT SHARE KEYS WITH ANYONE
 #Put keys in seperate file "AlpacaKeys.py" and import them here
 # Add directory containing AlpacaKeys.py to the Python path
-sys.path.append(r"Z:\\")
-
-# Correct import syntax — just the filename (no extension)
-from AlpacaKeys import ALPACA_ENDPOINT, ALPACA_KEY, ALPACA_SECRET #type: ignore
 
 # Logging configuration
 LOG_DIR = "logs"

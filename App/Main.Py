@@ -1,19 +1,19 @@
 import sys
 import pandas as pd
-from App.Data_handler import DataHandler
-from App.Validator import Validator
-from App.Feature_engineering import FeatureEngineering
-from App.model import Model
-from App.Signal_Generator import SignalGenerator
-from App.Screener import StockScreener
-from App.Forecasting import ForecasterSelector
-from App.Riskmanager import RiskManager
-from App.ReportGenerator import ReportGenerator
-from App.Visualiser import Visualiser
-from App.Indicators import Indicators
-from App.Logger import System_Log
+from Data_handler import DataHandler
+from Validator import Validator
+from Feature_engineering import FeatureEngineering
+from model import Model
+from Signal_Generator import SignalGenerator
+from Screener import StockScreener
+from Forecasting import ForecasterSelector
+from Riskmanager import RiskManager
+from ReportGenerator import ReportGenerator
+from Visualiser import Visualiser
+from Indicators import Indicators
+from Logger import System_Log
 from time import sleep
-
+from GUI import LiveTradingGUI
 
 logger = System_Log.setup_logger("main")
 
@@ -259,7 +259,8 @@ def main():
         print("2️⃣ - Train Forecasting Models")
         print("3️⃣ - Run Forecasting Only")
         print("4️⃣ - Simulate Real-Time Trading")
-        print("5️⃣ - Exit")
+        print("5️⃣ - Launch Live Trading GUI")
+        print("6️⃣ - Exit")
 
         choice = input("Select an option: ")
 
@@ -280,10 +281,14 @@ def main():
         elif choice == "4":
             real_time_simulation()
         elif choice == "5":
+            root = tk.Tk()
+            app = LiveTradingGUI(root)
+            root.mainloop()
+        elif choice == "6":
             print("Exiting trading system...")
             sys.exit()
         else:
-            print("Invalid option. Please select 1, 2, 3, 4, or 5.")
+            print("Invalid option. Please select 1 to 6.")
 
 if __name__ == '__main__':
     main()

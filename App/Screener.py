@@ -1,5 +1,5 @@
 import pandas as pd
-from App.Logger import System_Log
+from Logger import System_Log
 
 system_logger = System_Log.setup_logger('Screener')
 

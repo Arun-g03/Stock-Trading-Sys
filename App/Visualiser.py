@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-from App.Logger import System_Log
+from Logger import System_Log
 
 # Setup the logger
 system_logger = System_Log.setup_logger('visualiser')

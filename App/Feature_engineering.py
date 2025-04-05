@@ -3,9 +3,9 @@
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
-from App.Patterns import Patterns
-from App.Indicators import Indicators
-from App.Logger import System_Log
+from Patterns import Patterns
+from Indicators import Indicators
+from Logger import System_Log
 
 # Setup the logger
 system_logger = System_Log.setup_logger('feature_engineering')

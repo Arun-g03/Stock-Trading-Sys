@@ -4779,3 +4779,158 @@ max    219.845001  220.5  219.270004  220.179993  2408308.0
 2025-03-19 23:34:51,537 ERROR Error identifying ADX Trend Strength: negative dimensions are not allowed
 2025-03-19 23:34:51,538 ERROR Error adding patterns: negative dimensions are not allowed
 2025-03-19 23:34:51,540 ERROR Error in feature engineering: negative dimensions are not allowed
+2025-04-05 22:19:24,210 INFO Fetching and validating data...
+2025-04-05 22:19:26,060 INFO Data loaded successfully from Yahoo Finance for ['AAPL'] from 2022-01-01 to 2022-12-31
+2025-04-05 22:19:26,060 INFO           Date       Close        High         Low        Open     Volume
+0   2022-01-03  178.879929  179.734977  174.653889  174.771820  104487900
+1   2022-01-04  176.609619  179.793905  176.039592  179.489238   99310400
+2   2022-01-05  171.911880  177.071596  171.636697  176.521228   94537600
+3   2022-01-06  169.042053  172.285305  168.688244  169.730012   96904000
+4   2022-01-07  169.209137  171.145259  168.088742  169.916756   86709100
+..         ...         ...         ...         ...         ...        ...
+246 2022-12-23  130.344498  130.898059  128.150012  129.415299   63814900
+247 2022-12-27  128.535538  129.899682  127.240596  129.870028   69007800
+248 2022-12-28  124.591385  129.524031  124.423341  128.179661   85438400
+249 2022-12-29  128.120377  128.980373  126.261986  126.518993   75703700
+250 2022-12-30  128.436676  128.456450  125.965417  126.934157   77034200
+
+[251 rows x 6 columns]
+2025-04-05 22:19:26,060 INFO No missing values found.
+2025-04-05 22:19:26,060 INFO No duplicate rows found.
+2025-04-05 22:19:26,060 INFO Data types:
+Date      datetime64[ns]
+Close            float64
+High             float64
+Low              float64
+Open             float64
+Volume             int64
+dtype: object
+2025-04-05 22:19:26,087 INFO Data statistical summary:
+                                Date       Close        High         Low        Open        Volume
+count                            251  251.000000  251.000000  251.000000  251.000000  2.510000e+02
+mean   2022-07-02 15:23:39.920318720  152.607556  154.650547  150.494617  152.575786  8.791038e+07
+min              2022-01-03 00:00:00  124.591385  128.456450  124.423341  126.518993  3.519590e+07
+25%              2022-04-02 12:00:00  142.799423  144.964481  140.376131  142.454328  7.229740e+07
+50%              2022-07-05 00:00:00  151.855804  153.570582  149.736973  151.776943  8.373720e+07
+75%              2022-10-01 12:00:00  163.372040  165.754623  161.384465  163.704391  9.693705e+07
+max              2022-12-30 00:00:00  178.879929  179.793905  176.039592  179.489238  1.826020e+08
+std                              NaN   12.697923   12.575342   12.753981   12.705788  2.365699e+07
+2025-04-05 22:19:26,090 WARNING Outliers found:
+Date       0
+Close      0
+High       0
+Low        0
+Open       0
+Volume    14
+dtype: int64
+2025-04-05 22:19:26,090 INFO Calculating technical indicators...
+2025-04-05 22:19:26,092 INFO Relative Strength Index (window=14) calculated successfully as RSI.
+2025-04-05 22:19:26,093 INFO MACD (slow=26, fast=12, sign=9) calculated successfully.
+2025-04-05 22:19:26,095 INFO ATR calculated successfully.
+2025-04-05 22:19:26,095 INFO Bollinger Bands (window=20, std_dev=2) calculated successfully.
+2025-04-05 22:19:26,095 INFO Moving Average (window=20) calculated successfully.
+2025-04-05 22:19:26,095 INFO Exponential Moving Average (window=20) calculated successfully.
+2025-04-05 22:19:26,095 INFO Generating trading signals...
+2025-04-05 22:19:26,099 INFO Rule-based signals generated successfully.
+2025-04-05 22:19:26,099 INFO Applying feature engineering...
+2025-04-05 22:19:26,100 INFO Higher Highs and Lower Lows identified successfully.
+2025-04-05 22:19:26,102 INFO Double Top pattern identified successfully.
+2025-04-05 22:19:26,102 INFO Head and Shoulders pattern identified successfully.
+2025-04-05 22:19:26,102 INFO Triple Bottom pattern identified successfully.
+2025-04-05 22:19:26,102 INFO Cup and Handle pattern identified successfully.
+2025-04-05 22:19:26,102 INFO Bullish Engulfing pattern identified successfully.
+2025-04-05 22:19:26,106 INFO Bearish Engulfing pattern identified successfully.
+2025-04-05 22:19:26,106 INFO Morning Star pattern identified successfully.
+2025-04-05 22:19:26,107 INFO Evening Star pattern identified successfully.
+2025-04-05 22:19:26,107 INFO Hammer pattern identified successfully.
+2025-04-05 22:19:26,108 INFO Shooting Star pattern identified successfully.
+2025-04-05 22:19:26,110 INFO RSI Divergence identified successfully.
+2025-04-05 22:19:26,111 INFO Bollinger Band Squeeze identified successfully.
+2025-04-05 22:19:26,112 INFO Moving Average Crossover identified successfully.
+2025-04-05 22:19:26,116 INFO ADX Trend Strength identified successfully.
+2025-04-05 22:19:26,117 INFO Stochastic Oscillator identified successfully.
+2025-04-05 22:19:26,118 INFO Pennant pattern identified successfully.
+2025-04-05 22:19:26,119 INFO Flag pattern identified successfully.
+2025-04-05 22:19:26,120 INFO Wedge pattern identified successfully.
+2025-04-05 22:19:26,120 INFO Triangle pattern identified successfully.
+2025-04-05 22:19:26,120 INFO Patterns added successfully.
+2025-04-05 22:19:26,120 INFO Moving Average (window=20) calculated successfully.
+2025-04-05 22:19:26,120 INFO Exponential Moving Average (window=20) calculated successfully.
+2025-04-05 22:19:26,120 INFO Relative Strength Index (window=14) calculated successfully as RSI.
+2025-04-05 22:19:26,120 INFO Bollinger Bands (window=20, std_dev=2) calculated successfully.
+2025-04-05 22:19:26,120 INFO MACD (slow=26, fast=12, sign=9) calculated successfully.
+2025-04-05 22:19:26,120 INFO ATR calculated successfully.
+2025-04-05 22:19:26,120 INFO Stochastic Oscillator (window=14, smooth_window=3) calculated successfully.
+2025-04-05 22:19:26,120 INFO Commodity Channel Index (window=20) calculated successfully.
+2025-04-05 22:19:26,120 INFO Ichimoku Cloud (window1=9, window2=26, window3=52) calculated successfully.
+2025-04-05 22:19:26,120 INFO Aroon Indicator (window=25) calculated successfully.
+2025-04-05 22:19:26,152 INFO Parabolic SAR (acceleration=0.02, maximum=0.2) calculated successfully.
+2025-04-05 22:19:26,152 INFO Volume Weighted Average Price (window=14) calculated successfully.
+2025-04-05 22:19:26,152 INFO On-Balance Volume calculated successfully.
+2025-04-05 22:19:26,152 INFO Money Flow Index (window=14) calculated successfully.
+2025-04-05 22:19:26,152 INFO Chaikin Money Flow (window=20) calculated successfully.
+2025-04-05 22:19:26,152 INFO Ease of Movement (window=14) calculated successfully.
+2025-04-05 22:19:26,152 INFO Accumulation/Distribution Index calculated successfully.
+2025-04-05 22:19:26,152 INFO Ultimate Oscillator (short_window=7, long_window=14) calculated successfully.
+2025-04-05 22:19:26,152 INFO Indicators added successfully.
+2025-04-05 22:19:26,170 INFO Missing values handled successfully.
+2025-04-05 22:19:26,182 INFO Lagged features created successfully.
+2025-04-05 22:19:26,188 INFO Data normalised successfully.
+2025-04-05 22:19:26,190 INFO Feature engineering completed successfully.
+2025-04-05 22:19:26,190 INFO Training trading model...
+2025-04-05 22:19:26,274 INFO Model trained successfully with accuracy: 1.00
+2025-04-05 22:19:26,292 INFO Model signals applied successfully.
+2025-04-05 22:19:26,292 INFO Consensus signal generated successfully.
+2025-04-05 22:19:26,292 INFO Backtesting trading strategy...
+2025-04-05 22:19:26,306 INFO Backtesting completed successfully.
+2025-04-05 22:19:26,306 INFO Rule-Based Signal Accuracy: 1.00
+2025-04-05 22:19:26,306 INFO Model-Based Signal Accuracy: 1.00
+2025-04-05 22:19:26,306 INFO Rule-based accuracy: 1.00, Model accuracy: 1.00
+2025-04-05 22:19:26,306 INFO Training forecasting models...
+2025-04-05 22:19:26,306 INFO Training LSTM model...
+2025-04-05 22:19:29,878 INFO LSTM Epoch 0/50, Loss: 0.2699618935585022
+2025-04-05 22:19:29,893 INFO LSTM Epoch 10/50, Loss: 0.2234310805797577
+2025-04-05 22:19:29,905 INFO LSTM Epoch 20/50, Loss: 0.18261976540088654
+2025-04-05 22:19:29,916 INFO LSTM Epoch 30/50, Loss: 0.14653867483139038
+2025-04-05 22:19:29,934 INFO LSTM Epoch 40/50, Loss: 0.11534328013658524
+2025-04-05 22:19:29,946 INFO LSTM training completed.
+2025-04-05 22:19:29,948 INFO Training GRU model...
+2025-04-05 22:19:29,964 INFO GRU Epoch 0/50, Loss: 0.25998201966285706
+2025-04-05 22:19:29,977 INFO GRU Epoch 10/50, Loss: 0.19745281338691711
+2025-04-05 22:19:29,993 INFO GRU Epoch 20/50, Loss: 0.1451570689678192
+2025-04-05 22:19:30,007 INFO GRU Epoch 30/50, Loss: 0.10451507568359375
+2025-04-05 22:19:30,020 INFO GRU Epoch 40/50, Loss: 0.07826182246208191
+2025-04-05 22:19:30,035 INFO GRU training completed.
+2025-04-05 22:19:30,035 INFO Training ARIMA model...
+2025-04-05 22:19:30,113 INFO ARIMA model trained successfully.
+2025-04-05 22:19:30,113 INFO ARIMA training completed.
+2025-04-05 22:19:30,113 INFO Training HoltWinters model...
+2025-04-05 22:19:30,201 INFO Holt–Winters model trained successfully.
+2025-04-05 22:19:30,201 INFO HoltWinters training completed.
+2025-04-05 22:19:30,201 INFO Training LinearRegression model...
+2025-04-05 22:19:30,204 INFO Linear Regression model trained successfully.
+2025-04-05 22:19:30,204 INFO LinearRegression training completed.
+2025-04-05 22:19:30,204 INFO Running forecasting models...
+2025-04-05 22:19:30,204 INFO Running LSTM forecaster...
+2025-04-05 22:19:30,213 INFO LSTM Epoch 0/50, Loss: 0.3533521890640259
+2025-04-05 22:19:30,229 INFO LSTM Epoch 10/50, Loss: 0.2998657822608948
+2025-04-05 22:19:30,243 INFO LSTM Epoch 20/50, Loss: 0.24893762171268463
+2025-04-05 22:19:30,253 INFO LSTM Epoch 30/50, Loss: 0.19973298907279968
+2025-04-05 22:19:30,261 INFO LSTM Epoch 40/50, Loss: 0.15348432958126068
+2025-04-05 22:19:30,286 INFO LSTM forecasting completed.
+2025-04-05 22:19:30,286 INFO Running GRU forecaster...
+2025-04-05 22:19:30,294 INFO GRU Epoch 0/50, Loss: 0.5048782825469971
+2025-04-05 22:19:30,303 INFO GRU Epoch 10/50, Loss: 0.41168028116226196
+2025-04-05 22:19:30,315 INFO GRU Epoch 20/50, Loss: 0.3268969655036926
+2025-04-05 22:19:30,330 INFO GRU Epoch 30/50, Loss: 0.2489197701215744
+2025-04-05 22:19:30,336 INFO GRU Epoch 40/50, Loss: 0.1792673021554947
+2025-04-05 22:19:30,351 INFO GRU forecasting completed.
+2025-04-05 22:19:30,351 INFO Running ARIMA forecaster...
+2025-04-05 22:19:30,395 INFO ARIMA model trained successfully.
+2025-04-05 22:19:30,398 INFO ARIMA forecasting completed.
+2025-04-05 22:19:30,398 INFO Running HoltWinters forecaster...
+2025-04-05 22:19:30,447 INFO Holt–Winters model trained successfully.
+2025-04-05 22:19:30,447 INFO HoltWinters forecasting completed.
+2025-04-05 22:19:30,447 INFO Running LinearRegression forecaster...
+2025-04-05 22:19:30,447 INFO Linear Regression model trained successfully.
+2025-04-05 22:19:30,447 INFO LinearRegression forecasting completed.

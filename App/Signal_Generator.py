@@ -2,10 +2,10 @@
 
 import pandas as pd
 import numpy as np
-from App.Feature_engineering import FeatureEngineering
-from App.model import Model
+from Feature_engineering import FeatureEngineering
+from model import Model
 from sklearn.metrics import accuracy_score
-from App.Logger import System_Log
+from Logger import System_Log
 
 # Setup the logger
 system_logger = System_Log.setup_logger('signal_generator')

@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import joblib
-from App.Logger import System_Log
+from Logger import System_Log
 
 # Setup the logger
 system_logger = System_Log.setup_logger('model')

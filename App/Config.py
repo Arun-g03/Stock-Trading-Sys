@@ -8,6 +8,7 @@ sys.path.append(r"Z:\\")
 # Correct import syntax — just the filename (no extension)
 from AlpacaKeys import ALPACA_ENDPOINT, ALPACA_KEY, ALPACA_SECRET #type: ignore
 
+
 # Time Intervals Configuration
 INTERVALS = {
     'minute': ['1m', '5m', '15m', '30m'],
