@@ -1,3 +1,5 @@
+OUTDATED - NO LONGER WORKING ON SYSTEM
+
 # Stock Analysis and Signal Generating System
 # WORK IN PROGRESS, Current phase - The Jigsaw Puzzle - Getting the pieces together
 # Hard to find time to work on this
